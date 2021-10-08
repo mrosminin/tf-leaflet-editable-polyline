@@ -1,6 +1,6 @@
 {
   "name": "tf-leaflet-editble-polyline",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "editable polyline for leaflet",
   "keywords": [
     "polylyne",
@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.15.8"
   },
   "scripts": {
-    "compile": "babel src --compact -o index.js",
+    "compile": "babel src --compact --no-comments -o index.js",
     "prepublish": "npm run compile"
   }
 }

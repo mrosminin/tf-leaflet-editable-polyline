@@ -1,3 +1,5 @@
+import L from "leaflet"
+
 L.Polyline.polylineEditor = L.Polyline.extend({
   /**
    * Добавление методов к карте если их еще нет
@@ -116,10 +118,14 @@ L.Polyline.polylineEditor = L.Polyline.extend({
         }
         that._emit("leafletPolylineUpdate", event)
         that._reloadPolyline()
+        event.originalEvent.preventDefault()
       }
 
       this._map.on("contextmenu", stopHandler)
-      this._map.on("mouseout", stopHandler)
+      // Иначе рвется постоянно линия
+      if (!(this._map.options.preferCanvas)) {
+        this._map.on("mouseout", stopHandler)
+      }
 
       that._map._editablePolylines.push(this)
     }
@@ -581,7 +587,10 @@ L.Polyline.polylineEditor = L.Polyline.extend({
 
       that._map.once("click", stopHandler)
       that._map.once("contextmenu", cancelHandler)
-      that._map.once("mouseout", cancelHandler)
+      // Иначе рвется постоянно линия
+      if (!(this._map.options.preferCanvas)) {
+        that._map.once("mouseout", cancelHandler)
+      }
       marker.once("click", stopHandler)
       if (line1) line1.once("click", stopHandler)
       if (line2) line2.once("click", stopHandler)
